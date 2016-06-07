@@ -45,8 +45,7 @@ while(<ANSWER>){
     my @field = split(",", $_);
     $field[0] =~ m/.*\/+([a-z,0-9]+.bam)\(*\d*\)*/g;
     my $bam_a = $1;
-    $field[1] =~ m/.*\/+([a-z,0-9]+.bam)\(*\d*\)*/g;
-    my $bam_b = $1;
+    my $bam_b = $field[1];
     if($bam_a ~~ undef || $bam_b ~~ undef){
         next;
     }
