@@ -21,6 +21,7 @@ my $zero2zero_conversions = 0; # store the number of zero to zero base conversio
 my $one2one_conversions = 0; # store the number of one to one base conversions performed
 my $one2zero_conversions = 0; # store the number of one to zero base conversions performed
 my $zero2one_conversions = 0; # store the number of zero to one base conversions performed
+my $counter = 0; # count the line number for debugging purposes
 
 # set up get opt long and help statement
 
@@ -59,7 +60,8 @@ open(OUTPUT, ">$output") || die;
 # obtain the start and stop coordinates of the first snp encountered in the file
 while(<INPUT>)
 {
-	# split the required inputs up
+    $counter++;
+    # split the required inputs up
     @line = split("\t");
     $start = $line[1];
     $end = $line[2];
@@ -73,7 +75,7 @@ while(<INPUT>)
 	}
 
 	# if it is a snv
-    if($line[3] =~ /\b[ATCG]\b/ig && $line[4] =~ /\b[ATCG]\b/ig)
+    if($line[3] =~ /\b[ATCGN]\b/ig && $line[4] =~ /\b[ATCGN]\b/ig)
     {
 		# if it is 0 based
         if($start + 1 == $end)
@@ -111,7 +113,7 @@ while(<INPUT>)
 			}
 
 		} else {
-            print STDERR "Could not detetermine base from coordinates!\n";
+            print STDERR "Could not detetermine base from coordinates!\nLine Number: $counter\n";
             exit;
         }
 
@@ -156,7 +158,7 @@ while(<INPUT>)
 			}
 
 		} else {
-            print STDERR "Could not detetermine base from coordinates!\n";
+            print STDERR "Could not detetermine base from coordinates!\nLine Number: $counter\n";
             exit;
         }
 
@@ -194,17 +196,17 @@ while(<INPUT>)
 				print OUTPUT "$line[0]\t$start\t$end\t$tail";
 				next;
 			} else {
-				print STDERR "Could not detetermine base from coordinates!\n";
+				print STDERR "Could not detetermine base from coordinates!\nLine Number: $counter\n";
 				exit;
 			}
 
         } else {
-			print STDERR "Could not detetermine base from coordinates!\n";
+			print STDERR "Could not detetermine base from coordinates!\nLine Number: $counter\n";
             exit;
         }
 
     } else {
-        print STDERR "Could not determine mutation type from coordinates!\n";
+        print STDERR "Could not determine mutation type from coordinates!\nLine Number: $counter\n";
         exit;
     }
 }
